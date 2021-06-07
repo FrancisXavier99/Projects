@@ -1,0 +1,461 @@
+<odoo>
+    <!-- This template is used to print dynamic data (from DB data) from model(DB) In a TABLE -->
+    <template id="movie_template">
+        <t t-call="website.layout">
+            <t t-set="title">Movie</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <br/>
+                    <form action="/movies/delete" method="post" data-model_name="movie.details"
+                          enctype="multipart/form-data" data-success_page="/thanks"
+                          class="s_website_form form-horizontal container-fluid mt32">
+                        <a t-attf-href="/movies/create" class="btn btn-outline-success">Create</a>
+                        <br/>
+                        <br/>
+                        <!-- <table border="2" width="100%" class="table-striped table"> -->
+                        <table class="mb16 table table-striped table-sm js_cart_lines">
+                            <thead class="font-weight-bolder">
+                                <td>Movie Name</td>
+                                <td>Release Date</td>
+                                <td>Movie Certificate</td>
+                                <td>Actors</td>
+                                <td>Director</td>
+                                <td>Music Director</td>
+                                <td>Available Status</td>
+                                <td>Status</td>
+                                <td></td>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="movie_data" t-as="rec">
+                                    <tr>
+                                        <td>
+
+                                            <a t-att-href="'/movies/details/%s' % slug(rec)" itemprop="url">
+                                                <t t-esc="rec.movie_name"/>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.release_date"/>
+                                        </td>
+                                        <td t-if="rec['movie_certificate']">
+                                            <t t-if="rec['movie_certificate'] == 'u'">U</t>
+                                            <t t-elif="rec['movie_certificate'] == 'ua'">UA</t>
+                                            <t t-elif="rec['movie_certificate'] == 'a'">A</t>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.actors"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.director"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.music"/>
+                                        </td>
+
+                                        <td t-if="rec['available_status']">
+                                            <t t-if="rec['available_status'] == 'available'">Available</t>
+                                            <t t-elif="rec['available_status'] == 'not_available'">Not Available</t>
+                                        </td>
+
+                                        <td>
+                                            <a t-attf-href="/movies/delete/{{rec.id}}" aria-label="Remove"
+                                               title="Remove">
+                                                <small>
+                                                    <i class='fa fa-trash-o'></i>
+                                                </small>
+                                            </a>
+                                            <a t-attf-href="/movies/edit/{{rec.id}}" aria-label="Edit" title="Edit">
+                                                <small>
+                                                    <i class='fa fa-pencil'></i>
+                                                </small>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- To fetch and show movie details widely  -->
+    <template id="template_movies_details">
+        <t t-call="website.layout">
+            <t t-set="title">Movie Details</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <h3>Movie Details</h3>
+                    <br/>
+                    <h4></h4>
+                    <t t-foreach="movie_data" t-as="rec">
+                        <!-- <span t-field="rec.img" t-options="{'widget': 'image', 'qweb_img_responsive': True, 'class': 'rounded o_image_64_max'}" />
+
+                            <br /><div t-field="rec.img" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded shadow o_alternative_product o_image_64_max' }" /> -->
+                        <div class="form-row">
+                            <div class="col-2 ">
+                                <h4>Movie Name</h4>
+                                <!-- <input type="text" class="form-control" placeholder="First name"></input> -->
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.movie_name"/>
+                                <!-- <input type="text" class="form-control" placeholder="Last name"></input> -->
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Release Date</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.release_date"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Actors</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.actors"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Director</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.director"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Music Director</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.music"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Status</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.available_status"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Image</h4>
+                            </div>
+                            <div class="col-2">
+                                <span t-field="rec.movie_firstlook"
+                                      t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}"/>
+                                <!-- <span t-field="rec.img" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-rounded&quot;}"/> -->
+                                <!-- <t t-esc="rec.img"/> -->
+                            </div>
+                        </div>
+                    </t>
+
+                    <br/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="movies_edit">
+        <t t-call="website.layout">
+            <t t-set="title">Edit Movie</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <form action="/movies/edit/save" method="post" data-model_name="movie.details"
+                          enctype="multipart/form-data" data-success_page="/thanks"
+                          class="s_website_form form-horizontal container-fluid mt32">
+                        <!--      	   add the input fields here -->
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                                <a t-attf-href="/movies" class="btn btn-outline-success">Movie</a>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Movie Name</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" t-att-value="prod.movie_name"
+                                       class="form-control o_website_form_input" name="movie_name" required=""/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Movie Image</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="file" t-att-value="prod.movie_firstlook" name="movie_firstlook"
+                                       alt="Submit" width="48" height="48"/>
+                                <!-- <input type="file" alt="Submit" style="float:right" width="48" height="48" name="img" required=""/> -->
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Movie Certificate</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <select required="1" name="movie_certificate" class="form-control o_website_form_input">
+                                    <option t-attf-value='u'>U</option>
+                                    <option t-attf-value='ua'>UA</option>
+                                    <option t-attf-value='a'>A</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Actors</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" t-att-value="prod.actors" class="form-control o_website_form_input"
+                                       name="actors" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Director</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" t-att-value="prod.director" class="form-control o_website_form_input"
+                                       name="director" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Music</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" t-att-value="prod.music" class="form-control o_website_form_input"
+                                       name="music" required=""/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Status</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <select required="1" name="movie_certificate" class="form-control o_website_form_input">
+                                    <option t-attf-value='available'>Available</option>
+                                    <option t-attf-value='not_available'>Not Available</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                                <input type='submit' class="btn btn-primary btn-lg "/>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="template_create_feedback">
+        <t t-call="website.layout">
+            <t t-set="title">Feedback</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <h3>Feedback Form</h3>
+                    <form id="feed_form" t-ignore="true" action="/feedback_form/" method="post" data-model_name=""
+                          class="s_website_form container-fluid mt32" enctype="multipart/form-data"
+                          data-success_page="/thanks">
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Your Name</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" class="form-control o_website_form_input" name="Name" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Phone">Phone Number</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" class="form-control o_website_form_input" name="Phone"/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="email_from">Email</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="email" class="form-control o_website_form_input" name="email_from"
+                                       required=""/>
+                            </div>
+                        </div>
+                        <!--                 <div class="form-group row form-field o_website_form_custom">
+                                            <div class="col-lg-3 col-md-4">
+                                                <label class="col-form-label" for="Partner Name">Your Company</label>
+                                            </div>
+                                            <div class="col-lg-7 col-md-8">
+                                                <input type="text" class="form-control o_website_form_input" name="Partner Name"/>
+                                            </div>
+                                        </div> -->
+                        <div class="form-group row form-field o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="subject">Subject</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" class="form-control o_website_form_input" name="subject"
+                                       required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Description">Your Suggestion</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <textarea class="form-control o_website_form_input" name="Description"
+                                          required=""></textarea>
+                            </div>
+                        </div>
+                        <!--                 <div class="form-group row form-field d-none">
+                                            <div class="col-lg-3 col-md-4">
+                                                <label class="col-form-label" for="email_to">Email To</label>
+                                            </div>
+                                            <div class="col-lg-7 col-md-8">
+                                                <input type="hidden" class="form-control o_website_form_input" name="email_to" t-att-value="res_company.email"/>
+                                            </div>
+                                        </div>
+                        -->
+                        <div class="form-group row">
+                            <div class="offset-lg-3 offset-md-4 col-md-8 col-lg-7">
+                                <a href="#" class="btn btn-primary btn-lg o_website_form_send">Send</a>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="template_thanks" name="Thanks">
+        <t t-call="website.layout">
+            <t t-set="title">Thanks</t>
+            <div id="wrap">
+                <div class="container">
+                    <div class="col-md-12">
+                        <a t-attf-href="/movies" class="btn btn-link">Back to Movie</a>
+                        <br/>
+                        <div class="alert alert-success">
+                            <center>
+                                Thank you!!!
+                                <br/>
+                                Have a Nice Day!
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="user_movie_form">
+        <t t-call="website.layout">
+            <div class="page" align="center">
+                <br/>
+                <h3 style="color: red;font-size: 30px;">Online Movie Ticket Booking</h3>
+                <br/>
+                <form action="\user_form" methods="['POST']">
+                    <table width="40%">
+                        <tr>
+                            <th width="40%">Name</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="name" required="1"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Gender</th>
+                            <td width="40%">
+                                <select name="gender" class="form-control" required="1">
+                                    <option t-attf-value='male'>Male</option>
+                                    <option t-attf-value='female'>Female</option>
+                                    <option t-attf-value='others'>Others</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Age</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="age" required="1"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Mobile Number</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="phone_no"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%">Email</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="email"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Country</th>
+                            <td width="40%">
+                                <select name="country" class="form-control">
+                                    <t t-foreach="country" t-as="cn">
+                                        <option t-att-value="cn.id">
+                                            <t t-esc="cn.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">State</th>
+                            <td width="40%">
+                                <select name="state" class="form-control">
+                                    <t t-foreach="state" t-as="st">
+                                        <option t-att-value="st.id">
+                                            <t t-esc="st.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                    <input class="btn btn-primary" type="submit" string="Create"></input>
+                    <br/>
+                </form>
+            </div>
+        </t>
+    </template>
+    <template id="booking_success">
+        <t t-call="website.layout">
+            <div class="page" align="center">
+                <br/>
+                <br/>
+                <br/>
+                <h2 style="color: #6A5ACD;">Created Successfully</h2>
+                <br/>
+                <br/>
+                <h1 style="color: red; font-size:40px;">WelCome To Our OMTB</h1>
+            </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- ******************************   Actions ************************************-->
+
+        <!--        Movie details Reports-->
+
+        <report
+                id="movie_report"
+                string="Report"
+                name="omtb.movie_report_template"
+                report_type="qweb-html"
+                model="movie.details"
+                print_report_name="'Movie Report'"
+                menu="True"
+        />
+
+        <!--    Booking Details Reports -->
+
+        <report id="booking_report"
+                model="booking.details"
+                string="Booking Report"
+                report_type="qweb-html"
+                name="omtb.booking_template"
+                file="omtb.booking_template"
+                print_report_name="(object.booking_seq)"
+                multi="False"
+                menu="False">
+        </report>
+
+        <!--        Movie Booking Date report-->
+        <report id="omtb.Movie_booking_date_report"
+                model="booking.details"
+                string="Movie Booked Report"
+                report_type="qweb-html"
+                name="omtb.movie_booking_date_template"
+                file="omtb.movie_booking_date_template"
+                print_report_name='"Date Based Report"'
+                multi="False"
+                menu="False">
+        </report>
+
+        <!-- 	Booking wizard New Invoice -->
+
+        <report id="omtb.action_booking_invoice_document"
+                string="Movie Ticket Booking Invoice"
+                model="booking.details"
+                report_type="qweb-html"
+                file="omtb.report_booking_invoice"
+                name="omtb.report_booking_invoice"
+                print_report_name="(object.booking_seq)"
+                multi="False"
+                menu="False"/>
+
+
+        <!-- ******************************   Templates ************************************-->
+
+        <!--        movie details report-->
+
+        <template id="movie_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <style>
+                            table tr {
+                            page-break-inside: avoid;
+                            }
+                            table td {
+                            padding: 0.15rem !important;
+                            }
+                        </style>
+                        <center>
+                            <strong style="font-size:25px;">Movie Report</strong>
+                        </center>
+                        <br/>
+                        <table class="table table-striped">
+                            <thead style="color: #00a09d;">
+                                <th>S.No</th>
+                                <th>Movie Name</th>
+                                <th>Release Date</th>
+                                <th>Movie Certificate</th>
+                                <th>Release Country</th>
+                            </thead>
+                            <tbody>
+                                <t t-set="count" t-value="1"/>
+                                <t t-foreach="docs" t-as="o">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="count"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="o.movie_name"/>movie_booking_date_template
+                                        </td>
+                                        <td>
+                                            <span t-field="o.release_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                        </td>
+                                        <td t-if="o['movie_certificate']">
+                                            <t t-if="o['movie_certificate'] == 'u'">U</t>
+                                            <t t-elif="o['movie_certificate'] == 'ua'">UA</t>
+                                            <t t-elif="o['movie_certificate'] == 'a'">A</t>
+                                            <t t-else="">Others</t>
+                                        </td>
+                                        <td t-if="o['release_country']">
+                                            <t t-if="o['release_country'] == 'country'">Country</t>
+                                            <t t-elif="o['release_country'] == 'continent'">Continent</t>
+                                            <t t-elif="o['release_country'] == 'inter-continent'">Inter-Continent</t>
+                                            <t t-else="">Others</t>
+                                        </td>
+                                    </tr>
+                                    <t t-set="count" t-value="count + 1"/>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+        <!--    Booking Details Reports Template -->
+
+        <template id="booking_template">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div>
+                                <table class="table table-sm table-header">
+                                </table>
+                                <hr size="3" color="green"></hr>
+                            </div>
+                            <div id="booking">
+                                <center>
+                                    <h1>
+                                        <b>Booking Details</b>
+                                    </h1>
+                                </center>
+                                <table class="table table-sm table-bordered">
+                                    <tr>
+                                        <th style="width: 220px;">Booking Reference</th>
+                                        <td style="width: 220px;">
+                                            <t t-esc="o.booking_seq"/>
+                                        </td>
+                                        <th style="width: 220px;">User Name</th>
+                                        <td style="width: 220px;">
+                                            <t t-esc="o.user_id.user_name"/>
+                                        </td>
+                                        <th>Contact No</th>
+                                        <td>
+                                            <t t-esc="o.phone"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>
+                                            <t t-esc="o.email"/>
+                                        </td>
+                                        <th>Status</th>
+                                        <td>
+                                            <span t-field="o.status"/>
+                                        </td>
+                                        <th>Booking Date</th>
+                                        <td>
+                                            <span t-field="o.date_time" t-options='{"format":"dd-MM-yyyy"}'/>
+                                            <sub>
+                                                <span t-field="o.date_time" t-options='{"format":"hh:mm"}'/>
+                                            </sub>
+                                        </td>
+                                        <!-- t-options='{"format":"dd-MM-yyyyThh:mm:ss.s"} -->
+                                    </tr>
+                                </table>
+                                <div class="clearfix" name="so_total_summary">
+                                    <div>
+                                        <div
+                                                t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                            <table class="table table-sm">
+                                                <tr class="border-black o_total">
+                                                    <td>
+                                                        <strong>Total</strong>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-field="o.amount_total"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <!-- 	Booking wizard New Invoice template -->
+
+        <template id="report_booking_invoice_document">
+            <!--
+            web.external_layout_standard
+            web.basic_layout
+            web.html_container
+            web.internal_layout
+             -->
+            <t t-call="web.internal_layout">
+                <t t-set="doc" t-value="doc.with_context(user_name=doc.user_id.user_name)"/>
+                <div class="page">
+                    <div class="oe_structure"/>
+
+                    <h3>
+                        <span>Invoice #</span>
+                        <span t-field="doc.booking_seq"/>
+                    </h3>
+                    <h3>
+                        <span>User Name:</span>
+                        <span t-field="doc.user_id.user_name"/>
+                    </h3>
+                    <table align="right">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <h3>Movie Booking Invoice</h3>
+                                <span t-field="doc.show_id"/>
+                                <br/>
+                                <span t-field="doc.cinema_hall_id"/>
+                                <br/>
+                                <span t-field="doc.show_type"/>
+                                <br/>
+                                <span t-field="doc.cinema_hall_type"/>
+                                <br/>
+                                <span t-field="doc.book_seat_type"/>
+                                <br/>
+                                <span t-field="doc.start_time" t-options='{"format":"dd-MM-yyyy"}'/>
+                                <sub>
+                                    <span t-field="doc.start_time" t-options='{"format":"hh:mm"}'/>
+                                </sub>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="row mt32 mb32" id="informations">
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Booking Date:</strong>
+                            <br/>
+                            <strong>Booking Status:</strong>
+                            <br/>
+                            <br/>
+                            <br/>
+                        </div>
+
+                        <div class="col-auto mw-100 mb-2">
+                            <p class="m-0" t-field="doc.date_time"/>
+                            <p class="m-0" t-field="doc.status"/>
+                        </div>
+                    </div>
+
+
+                    <!-- Is there a discount on at least one line? -->
+                    <!-- 			<t t-set="display_discount"
+                                    t-value="any([l.discount for l in doc.order_line])" />
+                 -->
+                    <hr style="background-color:gray"></hr>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th name="th_movie" class="text-left">Movie</th>
+                                <th name="th_cost" class="text-right">Cost</th>
+                                <th name="th_tickets" class="text-right">Total Tickets</th>
+                                <th name="th_subtotal" class="text-right">Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-foreach="doc.booking_line_ids" t-as="line">
+                                <tr>
+                                    <t>
+                                        <td name="th_movie">
+                                            <span t-field="line.show_id"/>
+                                        </td>
+                                        <td name="td_cost" class="text-right">
+                                            <span t-field="line.cost"/>
+                                        </td>
+                                        <td name="th_tickets" class="text-right">
+                                            <span t-field="line.total_tickets"/>
+                                        </td>
+                                        <td name="td_subtotal" class="text-right">
+                                            <span t-field="line.sub_total"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix" name="so_total_summary">
+                        <div id="total" class="row" name="total">
+                            <div
+                                    t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm">
+                                    <tr class="border-black o_total">
+                                        <td name="td_amount_total_label">
+                                            <strong>Total</strong>
+                                        </td>
+                                        <td name="td_amount_total" class="text-right">
+                                            <span t-field="doc.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oe_structure"/>
+
+                    <!-- <p t-field="doc.note" />
+                    <p t-if="doc.payment_term_id.note">
+                        <span t-field="doc.payment_term_id.note" />
+                    </p>
+                    <p id="fiscal_position_remark"
+                        t-if="doc.fiscal_position_id and doc.fiscal_position_id.sudo().note">
+                        <strong>Fiscal Position Remark:</strong>
+                        <span t-field="doc.fiscal_position_id.sudo().note" />
+                    </p> -->
+                </div>
+            </t>
+        </template>
+
+        <template id="report_booking_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t
+                            t-call="omtb.report_booking_invoice_document"
+                            t-lang="doc.user_id.user_name"/>
+                </t>
+            </t>
+        </template>
+        <!--        Movie Booking Date report template-->
+
+        <template id="movie_booking_date_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <!--                    <center><h5><t t-esc="data['gender']"/><![CDATA|&nbsp;|]>Passengers</h5></center>-->
+                        <center>
+                            <h4>
+                                Movie Booking between
+                            </h4>
+                            <h5>
+                                <!--                                <t t-esc="data['from_date']"/>-->
+                                <!--                                to<t t-esc="data['to_date']"/><![CDATA[&nbsp;]]>-->
+                            </h5>
+                        </center>
+                        <br/>
+                        <br/>
+                        <table class="table table-striped table-bordered table-hover table-condensed" border="2">
+                            <t t-set="s_no" t-value="1"/>
+                            <thead>
+                                <tr>
+                                    <td>S.No</td>
+                                    <td>Booking Sequence</td>
+                                    <td>User Name</td>
+                                    <td>Mobile No</td>
+                                    <td>Email</td>
+                                    <td>Booking Date</td>
+                                    <td>Total Amount</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="get_data" t-as="datum">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="s_no"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datum['booking_seq']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datum['user_id']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datum['phone']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datum['email']"/>
+                                        </td>
+                                        <!--                                        <th>Booking Date</th>-->
+                                        <!--                                        <td>-->
+                                        <!--                                            <span t-field="datum['date_time']" t-options='{"format":"dd-MM-yyyy"}'/>-->
+                                        <!--                                            <sub>-->
+                                        <!--                                                <span t-field="datum['date_time']" t-options='{"format":"hh:mm"}'/>-->
+                                        <!--                                            </sub>-->
+                                        <!--                                        </td>-->
+                                        <td>
+                                            <t t-esc="datum['date_time']"/>
+                                        </td>
+                                        <!-- <td> <t t-esc="datum['status']"/></td> -->
+                                        <td>
+                                            <t t-esc="datum['amount_total']"/>
+                                        </td>
+                                    </tr>
+                                    <t t-set="s_no" t-value="s_no+1"/>
+
+                                </t>
+
+                            </tbody>
+                        </table>
+                        <div class="clearfix" name="so_total_summary">
+                            <div>
+                                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                    <table class="table table-sm">
+                                        <tr class="border-black o_total">
+                                            <td>
+                                                <strong>
+                                                    <h1>Total</h1>
+                                                </strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <h1>
+                                                    <t t-esc="get_data[0]['total_all']"/>
+                                                </h1>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

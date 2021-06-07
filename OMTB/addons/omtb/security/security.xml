@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_category_role" model="ir.module.category">
+            <field name="name">Security Roles</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="booking_group_user" model="res.groups">
+            <field name="name">Users</field>
+            <field name="category_id" ref="module_category_role"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+            <field name="comment">This user can access only his details</field>
+        </record>
+
+        <record id="group_manager" model="res.groups">
+            <field name="name">Manger</field>
+            <field name="category_id" ref="module_category_role"/>
+            <field name="implied_ids" eval="[(4,ref('omtb.booking_group_user'))]"/>
+            <field name="comment">This user can access only his details</field>
+        </record>
+
+        <!--        <record id="group_admin" model="res.groups">-->
+        <!--            <field name="name">Admin</field>-->
+        <!--            <field name="category_id" ref="module_category_role"/>-->
+        <!--            <field name="implied_ids" eval="[(4,ref('group_manager'))]"/>-->
+        <!--            <field name="comment">This user can access only his details</field>-->
+        <!--        </record>-->
+
+<!--        <record id="movie_category_admin_admin_rule" model="ir.rule">-->
+<!--            <field name="name">Category Admin</field>-->
+<!--            <field name="model_id" ref="model_movie_details"/>-->
+<!--            <field name="domain_force">[(1,'=',1)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('omtb.group_manager'))]"/>-->
+<!--        </record>-->
+<!--        <record id="booking_production_admin_admin_rule" model="ir.rule">-->
+<!--            <field name="name">Production Admin</field>-->
+<!--            <field name="model_id" ref="model_booking_details"/>-->
+<!--            <field name="domain_force">[(1,'=',1)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('omtb.group_manager'))]"></field>-->
+<!--        </record>-->
+
+<!--        <record id="movie_show_admin_admin_rule" model="ir.rule">-->
+<!--            <field name="name">Shows Admin</field>-->
+<!--            <field name="model_id" ref="model_show_details"/>-->
+<!--            <field name="domain_force">[(1,'=',1)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('omtb.group_manager'))]"></field>-->
+<!--        </record>-->
+
+<!--        <record id="booking_payment_admin_admin_rule" model="ir.rule">-->
+<!--            <field name="name">Payment Group Admin</field>-->
+<!--            <field name="model_id" ref="model_payments_details"/>-->
+<!--            <field name="domain_force">[(1,'=',1)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('omtb.group_manager'))]"></field>-->
+<!--        </record>-->
+
+<!--&lt;!&ndash;        Users Record Roles &ndash;&gt;-->
+
+<!--      <record id="movie_booking_user_rule" model="ir.rule">-->
+<!--            <field name="name">User Booking Rule</field>-->
+<!--            <field name="model_id" ref="model_booking_details"/>-->
+<!--            <field name="domain_force">[('user_id','=',user.user_id.id)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('omtb.group_user'))]"></field>-->
+<!--        </record>-->
+
+<!--        <record id="user_booking_payment_rule" model="ir.rule">-->
+<!--            <field name="name">User payment Rule</field>-->
+<!--            <field name="model_id" ref="model_payments_details"/>-->
+<!--            <field name="domain_force">[(booking_id.user_id','=',user.user_id.id)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('omtb.group_user'))]"></field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>

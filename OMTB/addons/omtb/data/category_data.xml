@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="blood_group1" model="blood.details">
+            <field name="blood_group">A+</field>
+        </record>
+        <record id="blood_group2" model="blood.details">
+            <field name="blood_group">A-</field>
+        </record>
+        <record id="blood_group3" model="blood.details">
+            <field name="blood_group">O+</field>
+        </record>
+        <record id="blood_group4" model="blood.details">
+            <field name="blood_group">O-</field>
+        </record>
+        <record id="blood_group5" model="blood.details">
+            <field name="blood_group">B+</field>
+        </record>
+        <record id="blood_group6" model="blood.details">
+            <field name="blood_group">B-</field>
+        </record>
+        <record id="blood_group7" model="blood.details">
+            <field name="blood_group">AB+</field>
+        </record>
+        <record id="blood_group8" model="blood.details">
+            <field name="blood_group">AB-</field>
+        </record>
+
+
+<!--        screen seat type-->
+         <record id="screen_seat_type1" model="screenseat.type">
+            <field name="screen_seat_type">First Class</field>
+        </record>
+        <record id="screen_seat_type2" model="screenseat.type">
+            <field name="screen_seat_type">Secound Class</field>
+        </record>
+        <record id="screen_seat_type3" model="screenseat.type">
+            <field name="screen_seat_type">Third Class</field>
+        </record>
+        <record id="screen_seat_type4" model="screenseat.type">
+            <field name="screen_seat_type">All</field>
+        </record>
+    </data>
+</odoo>

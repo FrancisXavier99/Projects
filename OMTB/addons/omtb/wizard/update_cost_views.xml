@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="update_movie_cost_form" model="ir.ui.view">
+            <field name="name">update.cost.cost.form</field>
+            <field name="model">update.movie.cost</field>
+            <field name="arch" type="xml">
+                <form string="Update Movie Cost">
+                    <group>
+                        <group>
+                            <field name="movie_id" required="1"/>
+                            <field name="currency_id" invisible ="1"/>
+                            <field name="movie_total_amount"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="update_movie_cost" type="object" string="Update" class="btn btn-info"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_update_movie_cost" model="ir.actions.act_window">
+            <field name="name">Movie Amount</field>
+            <field name="res_model">update.movie.cost</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

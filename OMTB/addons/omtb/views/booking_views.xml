@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <record id="view_booking_details_form" model="ir.ui.view">
+            <field name="name">booking.details.form</field>
+            <field name="model">booking.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_draft" type="object"
+                                string="Set Draft" class="oe_highlight"
+                                attrs="{'invisible':[('status','in',['draft'])]}" groups="omtb.group_manager"/>
+
+                        <button name="action_confirm" type="object"
+                                string="Set Confirmed" class="oe_highlight"
+                                attrs="{'invisible':[('status','in',['confirm', 'cancel'])]}"
+                                groups="omtb.group_manager"/>
+
+                        <button name="action_cancel" type="object"
+                                string="Set Cancel" class="oe_highlight"
+                                attrs="{'invisible':[('status','in',['cancel', 'received', 'confirm'])]}"
+                                groups="omtb.group_manager"/>
+
+                        <button name="action_received" type="object"
+                                string="Set Received" class="oe_highlight"
+                                attrs="{'invisible':[('status','in',['received'])]}" groups="omtb.group_manager"/>
+
+                        <field name="status" widget="statusbar"
+                               statusbar_visible="draft, confirm, cancel, received"></field>
+                        <button name="action_send_booking_invoice" type="object" string="Send invoice by mail"
+                                class="btn btn-outline-info"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button string="Print Report" name="%(booked_report)d" type="action"
+                                    class="oe_state_button" icon="fa-print" context="{'default_user_id': active_id}"/>
+                            <button string="Click to Pay" name="%(omtb.payments_wizard_details_action)d" type="action"
+                                    class="oe_state_button" icon="fa-rupee" context="{'default_user_id': active_id}"/>
+                            <button string="Movies" name="fetch_movies" type="object" class="oe_state_button"
+                                    icon="fa-cutlery" color="#875A7B"/>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="user_id" placeholder="User's Name" required="True"
+                                       options="{'no_open': True, 'no_create_edit':True}"/>
+                            </h1>
+                            <h2>
+                                <field name="book_seq" readonly="True"></field>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date_time"/>
+                                <field name="currency_id" invisible="True"/>
+                                <field name="phone" widget="phone"/>
+                                <field name="email" widget="email"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_booking_details_tree" model="ir.ui.view">
+            <field name="name">booking.details.tree</field>
+            <field name="model">booking.details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="book_seq"/>
+                    <field name="user_id"></field>
+                    <field name="date_time"></field>
+                    <!--                    <field name="amount_total"/>-->
+                    <field name="status"/>
+                    <button name="action_received" string="Received" type="object"
+                            icon="fa-check text-success"
+                            attrs="{'invisible': [('status', 'in', ['received', 'draft', 'cancel'])]}"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            icon="fa-times-circle text-danger"
+                            attrs="{'invisible': [('status', 'in', ['cancel', 'confirm', 'received'])]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_booking_search" model="ir.ui.view">
+            <field name="name">booking.details.search</field>
+            <field name="model">booking.details</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="book_seq"/>
+                    <field name="user_id"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="view_booking_details_graph" model="ir.ui.view">
+            <field name="name">booking.details.graph</field>
+            <field name="model">booking.details</field>
+            <field name="arch" type="xml">
+                <graph string="Sales Analysis">
+                    <field name="date_time" type="row" interval="day"/>
+                    <!-- <field name="count" type="row" interval="day" /> -->
+                    <field name="user_id"/>
+                    <!--					<field name="amount_total" type="measure"/>-->
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_booking_details_pivot">
+            <field name="name">booking.details.pivot</field>
+            <field name="model">booking.details</field>
+            <field name="arch" type="xml">
+                <pivot string="Booking">
+                    <field name="date_time" type="row"/>
+                    <field name="user_id" type="col"/>
+                    <!--					<field name="amount_total" type="measure" />-->
+                </pivot>
+            </field>
+        </record>
+
+
+        <record id="booking_view_calendar" model="ir.ui.view">
+            <field name="name">booking.details.calendar</field>
+            <field name="model">booking.details</field>
+            <field name="arch" type="xml">
+                <calendar string="Books"
+                          date_start="date_time"
+
+                          event_open_popup="true"
+                          mode="month"
+                          color="user_id"
+                          quick_add="False">
+                    <field name="user_id"/>
+                    <!--                     <field name="amount_total"/>-->
+                    <!--                    date_stop="return_date"-->
+                </calendar>
+            </field>
+        </record>
+
+        <record id="activity_view_booking_details" model="ir.ui.view">
+            <field name="name">booking.details.activity</field>
+            <field name="model">booking.details</field>
+            <field name="arch" type="xml">
+                <activity string="Booking Activity">
+                    <templates>
+                        <div t-name="activity-box">
+                            <div>
+                                <field name="book_seq" display="full"/>
+                                <!--								<field name="amount_total" muted="1" display="full" />-->
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+
+        <record id="booking_action" model="ir.actions.act_window">
+            <field name="name">Booking Details</field>
+            <field name="res_model">booking.details</field>
+            <field name="view_mode">kanban,form,tree,search,graph,calendar,pivot,activity</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new product
+                </p>
+                <p>
+                    Users booking will be stored here. It seems there is no booking yet.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

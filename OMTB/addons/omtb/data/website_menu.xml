@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- 	<record id="main_menu" model="website.menu">
+	    <field name="name">Products</field>
+	    <field name="parent_id" ref="website.main_menu"/>
+	    <field name="sequence">7</field>
+	</record>
+	 -->
+	<record id="movie_booking_website_menu" model="website.menu">
+	    <field name="name">Movies</field>
+	  <!--   <field name="is_published">True</field> -->
+	    <field name="url">/movies</field>
+	    <field name="parent_id" ref="website.main_menu"/>
+	    <!-- <field name="track">True</field> -->
+	    <field name="sequence">5</field>
+	</record>
+	
+	<record id="feedbacks_website_menu" model="website.menu">
+	    <field name="name">Feedback</field>
+	  <!--   <field name="is_published">True</field> -->
+	    <field name="url">/feedback</field>
+	    <field name="parent_id" ref="movie_booking_website_menu"/>
+	    <!-- <field name="track">True</field> -->
+	    <field name="sequence">8</field>
+	</record>
+<!-- 	<delete model="website.menu" id="main_menu" />
+	<delete model="website.menu" id="product_website_menu" />
+	<delete model="website.menu" id="feedback_website_menu" /> -->
+</odoo>

@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <menuitem id="movie_menu" name="Movie" action="action_movie_details"/>
+        <menuitem id="theater_menu" name="Theater" action="action_theater_details" parent="movie_menu" sequence="1"/>
+        <menuitem id="theater_menu1" name="Cinema Theater" action="action_theater_details" parent="theater_menu"
+                  sequence="1"/>
+        <menuitem id="cinemahall_menu" name="Cinema Hall" action="action_cinemahall_details" parent="theater_menu"
+                  sequence="2"/>
+        <menuitem id="shows_menu" name="Shows" action="action_manager_details" parent="movie_menu" sequence="2"/>
+        <menuitem id="show_menu" name="Cinema Shows" action="action_show_details" parent="shows_menu" sequence="1"/>
+
+        <menuitem id="booking_menu" name="Booking" action="booking_action" parent="movie_menu" sequence="3"/>
+        <menuitem id="payment_menu" name="Payment" action="payment_action" parent="movie_menu" sequence="4"/>
+
+        <menuitem id="menu_reporting" name="Reports" sequence="5" parent="movie_menu" groups="base.group_erp_manager,omtb.group_manager"/>
+        <menuitem id="booking_date_wizard_menu" name="Booking Report" parent="menu_reporting"
+                  action="booking_date_wizard_details_action" sequence="1"/>
+        <menuitem id="menu_report" name="Booking Report View" action="action_reporting_dashboard" parent="menu_reporting"
+                  sequence="2"/>
+
+        <menuitem id="update_cost_menu" name="Update Cost" sequence="6" parent="omtb.movie_menu"
+              action="action_update_movie_cost" groups="base.group_erp_manager,omtb.group_manager"/>
+        <menuitem id="dashboard_menu" name="Dashboard" sequence="7" parent="omtb.movie_menu"
+              action="action_booking_client_views"/>
+
+        <menuitem id="config_menu" name="Configuration" parent="movie_menu" sequence="8" groups="base.group_erp_manager,omtb.group_manager"/>
+        <menuitem id="profile_menu" name="Profile" parent="config_menu" sequence="1"/>
+        <menuitem id="user_menu" name="User" action="action_user_details" parent="profile_menu" sequence="1"/>
+        <menuitem id="manager_menu" name="Manager" action="action_manager_details" parent="profile_menu" sequence="2"/>
+    </data>
+</odoo>

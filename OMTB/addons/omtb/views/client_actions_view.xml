@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_booking_client_views" model="ir.actions.client">
+            <field name="name">Movie Booking</field>
+            <field name="tag">movie_dashboard</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <template id="assets_backend_dashboard" name="Dashboard Asset" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/omtb/static/src/js/movie_booking_client.js"/>
+            </xpath>
+        </template>
+    </data>
+
+
+    <!--    <data>-->
+    <!--        <record id="action_Movie_booking_sample_client_views" model="ir.actions.client">-->
+    <!--            <field name="name">Sample</field>-->
+    <!--            <field name="tag">movie_dash</field>-->
+    <!--             <field name="target">main</field>-->
+    <!--        </record>-->
+
+
+    <!--        <menuitem id="dashboard_sample_menu" name="Sample" sequence="1" parent="omtb.movie_menu" action="action_Movie_booking_sample_client_views"/>-->
+
+
+    <!--         <template id="assets_backend_dashboard_sample" name="Dashboard Asset" inherit_id="web.assets_backend">-->
+    <!--            <xpath expr="." position="inside">-->
+    <!--               <script type="text/javascript" src="/omtb/static/src/js/sample.js"/>-->
+    <!--             </xpath>-->
+    <!--        </template> -->
+    <!--    </data>-->
+
+
+</odoo>

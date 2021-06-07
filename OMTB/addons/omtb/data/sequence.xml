@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--        User Table Sequence Numbers-->
+    <data>
+        <record id="booking_user_seq" model="ir.sequence">
+            <field name="name">User Details</field>
+            <field name="code">omtb.user.details</field>
+            <field name="prefix">US</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+<!--        Manager Table Sequence Numbers-->
+        <record id="movie_manager_seq" model="ir.sequence">
+            <field name="name">Manager Details</field>
+            <field name="code">omtb.manager.details</field>
+            <field name="prefix">MA</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+<!--    Booking Tables Sequences-->
+        <record id="movie_booking_seq" model="ir.sequence">
+            <field name="name">Booking Details</field>
+            <field name="code">omtb.booking.details</field>
+            <field name="prefix">BK</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+<!--            Payments Tables Sequences-->
+        </record> <record id="movie_payment_seq" model="ir.sequence">
+            <field name="name">Payments Details</field>
+            <field name="code">omtb.payments.details</field>
+            <field name="prefix">PM</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

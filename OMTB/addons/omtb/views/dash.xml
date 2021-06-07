@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	 <record id="booking_graph_action" model="ir.actions.act_window">
+            <field name="name">Booking Details Graph</field>
+            <field name="res_model">booking.details</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="omtb.view_booking_details_graph"/>
+	</record>
+
+
+    <record id="action_booking_movie" model="ir.actions.act_window">
+        <field name="name">Booking Movie</field>
+        <field name="res_model">booking.details</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <record id="dashboard_reporting_form_view" model="ir.ui.view">
+        <field name="name">Movie Booking Dashboard Form</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string=" Movie Reporting Dashboard">
+                <board style="2-1">
+                    <column>
+                        <action
+                            string="Movie Booking Graph"
+                            name="%(omtb.booking_graph_action)d"/>
+                    	<action
+                            string="Movie Booking"
+                            name="%(omtb.action_booking_movie)d"/>
+                    </column>
+
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_reporting_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard-Reporting</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="dashboard_reporting_form_view"/>
+    </record>
+</odoo>

@@ -1,0 +1,32 @@
+<odoo>
+    <record id="view_payments_wizard" model="ir.ui.view">
+        <field name="name">Payment</field>
+        <field name="model">payments.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Payment Details">
+                <group>
+                    <group>
+                        <field name="user_id" widget="many2one_tags"/>
+                       <!--  <field name="payment_seq"></field> -->
+                        <field name="currency_id" invisible="True"/>
+<!--                        <field name="total"></field>-->
+                        <!-- <field name="date_time"/> -->
+                    </group>
+                </group>
+                <footer>
+                    <button string="Make Payment" name="create_payment" type="object" class="btn-primary"/>
+                    <button string="Cancel" clas="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+     <record id="payments_action_wizard_details" model="ir.actions.act_window">
+            <field name="name">payment</field>
+            <field name="res_model">payments.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+<!--        <menuitem id="menu_wizard" name="Wizard" parent="orders_menu" groups="base.group_erp_manager"/>-->
+        <menuitem id="pay_wizard_menu" name="Payment Report" parent="" action="payments_action_wizard_details" sequence="7"/>
+</odoo>
