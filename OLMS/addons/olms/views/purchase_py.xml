@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_purchase_form" model="ir.ui.view">
+            <field name="name">purchase.details.form</field>
+            <field name="model">purchase.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="payed_charges"/>
+                    <field name="other_charges"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="purchase_inherit" model="ir.ui.view">
+            <field name="name">purchase.inherit.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_untaxed']" position="after">
+                    <field name="payed_charges"/>
+                </xpath>
+                <xpath expr="//field[@name='payed_charges']" position="after">
+                    <field name="other_charges"/>
+                </xpath>
+            </field>
+        </record>
+
+         <record id="action_purchase_order" model="ir.actions.act_window">
+            <field name="name">Purchase Order</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click create to create a new record
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+
+
+

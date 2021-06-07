@@ -1,0 +1,668 @@
+<odoo>
+    <!-- This template is used to print dynamic data (from DB data) from model(DB) In a TABLE -->
+    <template id="book_template">
+        <t t-call="website.layout">
+            <t t-set="title">Books</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <br/>
+                    <form action="/books/delete" method="post" data-model_name="book.details"
+                          enctype="multipart/form-data" data-success_page="/thanks"
+                          class="s_website_form form-horizontal container-fluid mt32">
+                        <a t-attf-href="/books/create" class="btn btn-outline-success">Create</a>
+                        <br/>
+                        <br/>
+                        <!-- <table border="2" width="100%" class="table-striped table"> -->
+                        <table class="mb16 table table-striped table-sm js_cart_lines">
+                            <thead class="font-weight-bolder">
+                                <td>Book Name</td>
+                                <td>Category</td>
+                                <!--                                <td>Languages</td>-->
+                                <td>Author</td>
+                                <td>Publisher</td>
+                                <td>PublisherYear</td>
+                                <td>Available Status</td>
+                                <td>Subscrption Amt</td>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="book_data" t-as="rec">
+                                    <tr>
+                                        <td>
+
+                                            <a t-att-href="'/books/details/%s' % slug(rec)" itemprop="url">
+                                                <t t-esc="rec.book_name"/>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.category"/>
+                                        </td>
+                                        <!--                                        <td>-->
+                                        <!--                                            <t t-esc="rec.language_id.name"/>-->
+                                        <!--                                        </td>-->
+                                        <td>
+                                            <t t-esc="rec.author_id.author_name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.publisher_id.pub_name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="rec.publisher_year" t-options='{"format":"dd-MM-yyyy"}'/>
+                                        </td>
+
+                                        <td t-if="rec['available_status']">
+                                            <t t-if="rec['available_status'] == 'available'">Available</t>
+                                            <t t-elif="rec['available_status'] == 'not_available'">Not Available</t>
+                                        </td>
+                                        <td>
+                                            <t t-esc="rec.subscrption_amt"/>
+                                        </td>
+                                        <td>
+                                            <a t-attf-href="/books/edit/{{rec.id}}" aria-label="Edit" title="Edit">
+                                                <small>
+                                                    <i class='fa fa-pencil'></i>
+                                                </small>
+                                            </a>
+                                            <br/>
+                                            <a t-attf-href="/books/delete/{{rec.id}}" aria-label="Remove"
+                                               title="Remove">
+                                                <small>
+                                                    <i class='fa fa-trash-o'></i>
+                                                </small>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- To fetch and show book details widely  -->
+    <template id="template_books_details">
+        <t t-call="website.layout">
+            <t t-set="title">Books Details</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <h3>Books Details</h3>
+                    <br/>
+                    <h4></h4>
+                    <t t-foreach="book_data" t-as="rec">
+                        <span t-field="rec.image"
+                              t-options="{'widget': 'image', 'qweb_img_responsive': True, 'class': 'rounded o_image_64_max'}"/>
+
+                        <br/>
+                        <div t-field="rec.image"
+                             t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded shadow o_alternative_product o_image_64_max' }"/>
+                        <div class="form-row">
+                            <div class="col-2 ">
+                                <h4>Book Name</h4>
+                                <!--                                 <input type="text" class="form-control" placeholder="First name"></input> -->
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.book_name"/>
+                                <!-- <input type="text" class="form-control" placeholder="Last name"></input> -->
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Category</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.category"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Author</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.author_id.author_name"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Publisher</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.publisher_id.pub_name"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>PublisherYear</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.publisher_year"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Status</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.available_status"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Subscrption Amt</h4>
+                            </div>
+                            <div class="col-2">
+                                <t t-esc="rec.subscrption_amt"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <h4>Image</h4>
+                            </div>
+                            <div class="col-2">
+                                <span t-field="rec.image"
+                                      t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}"/>
+                                <!-- <span t-field="rec.img" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-rounded&quot;}"/> -->
+                                <!-- <t t-esc="rec.img"/> -->
+                            </div>
+                        </div>
+                    </t>
+
+                    <br/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+<!--    Book Create View-->
+
+    <template id="books_create">
+            <t t-call="website.layout">
+                <t t-set="title">Book</t>
+                <div class="oe_structure">
+                    <div class="container">
+       					<form action="/books/create/save" method="post" data-model_name="book.details" enctype="multipart/form-data" data-success_page="/thanks" class="s_website_form form-horizontal container-fluid mt32" >
+<!--      	   add the input fields here -->
+
+<!--                            <div class="form-group row form-field o_website_form_custom">-->
+<!--			                    <div class="col-lg-3 col-md-4">-->
+<!--			                        <label class="col-form-label" for="Name">Book Image</label>-->
+<!--			                    </div>-->
+<!--			                    <div class="col-lg-7 col-md-8">-->
+<!--			                        <input type="file" name="image" alt="Submit" width="48" height="48"/>-->
+<!--			                        &lt;!&ndash; <input type="file" alt="Submit" style="float:right" width="48" height="48" name="img" required=""/> &ndash;&gt;-->
+<!--			                    </div>-->
+<!--			                </div>-->
+
+       						<div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Name">Book Name</label>
+			                    </div>
+			                    <div class="col-lg-7 col-md-8">
+			                        <input type="text" class="form-control o_website_form_input" name="book_name" required="1"/>
+			                    </div>
+			                </div>
+
+			                <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Name">Category</label>
+			                    </div>
+			                   <div class="col-lg-7 col-md-8">
+			                        <input type="text" class="form-control o_website_form_input" name="category" required="1"/>
+			                    </div>
+			                </div>
+
+							<div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Name">Author</label>
+			                    </div>
+			                    <div class="col-lg-7 col-md-8">
+				                    <select required="1" name="author_id" class="form-control o_website_form_input">
+	                                    <t t-foreach="author_id" t-as="rec">
+	                                        <option t-att-value="rec.id"><t t-esc="rec.author_name"/> </option>
+	                                    </t>
+	                                </select>
+			                    </div>
+			                </div>
+                            <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Name">Publisher</label>
+			                    </div>
+			                    <div class="col-lg-7 col-md-8">
+				                    <select required="1" name="publisher_id" class="form-control o_website_form_input">
+	                                    <t t-foreach="publisher_id" t-as="rec">
+	                                        <option t-att-value="rec.id"><t t-esc="rec.pub_name"/></option>
+	                                    </t>
+	                                </select>
+			                    </div>
+			                </div>
+
+                            <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Name">Publisher Year</label>
+			                    </div>
+			                   <div class="col-lg-7 col-md-8">
+			                        <input type="date" class="form-control o_website_form_input" name="publisher_year" required="1"/>
+			                    </div>
+			                </div>
+
+                             <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Name">Status</label>
+			                    </div>
+			                    <div class=""></div>
+			                    <div class="col-lg-7 col-md-8">
+			                    	<input type="radio" checked="checked" class=".col-xs-6 .col-sm-3" value="available" name="available_status" required="1">Available</input>
+                 					<input type="radio" class=".col-xs-6 .col-sm-3" value="not_available" name="available_status" required="1">Non Available</input>
+			                    </div>
+			                </div>
+
+        					<!-- <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
+                                  <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> and Number</span></label>
+                                  <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="'street' in checkout and checkout['street']" />
+                              </div> -->
+
+
+            				<!-- 	<div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+				                    <div class="col-lg-3 col-md-4">
+				                        <label class="col-form-label" for="Name">Product Cost</label>
+				                    </div>
+				                    <div t-attf-class="form-group #{error.get('cost') and 'o_has_error' or ''} col-lg-7 col-md-8">
+				                        <input type="text" t-attf-class="form-control  o_website_form_input #{error.get('cost') and 'is-invalid' or ''}"  name="cost" required=""/>
+				                     onchange="return validateCost()"
+				                    </div>
+				                </div> -->
+
+
+         					<div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Name">Subscrption Amt</label>
+			                    </div>
+			                    <div class="col-lg-7 col-md-8">
+			                        <input type="text" class="form-control o_website_form_input" onchange="return validateCost()" name="subscrption_amt" required=""/>
+			                   <!--   onchange="return validateCost()" -->
+			                    </div>
+			                </div>
+       						<div class="form-group row form-field o_website_form_custom ">
+			                    <div class="col-lg-3 col-md-4">
+			                        <label class="col-form-label" for="Description">Description</label>
+			                    </div>
+			                    <div class="col-lg-7 col-md-8">
+			                        <textarea class="form-control o_website_form_input" name="description"></textarea>
+			                    </div>
+			                </div>
+
+       						<div class="form-group">
+            					<div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                					<input type='submit' class="btn btn-primary btn-lg "/>
+                					<span id="o_website_form_result"></span>
+            					</div>
+       						</div>
+						</form>
+					</div>
+				</div>
+			</t>
+			<script type="text/javascript" src="/olms/static/src/js/controller_validation.js"/>
+		</template>
+
+    <!--    Books Edit Views-->
+    <template id="books_edit">
+        <t t-call="website.layout">
+            <t t-set="title">Edit Books</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <form action="/books/edit/save" method="post" data-model_name="book.details"
+                          enctype="multipart/form-data" data-success_page="/thanks"
+                          class="s_website_form form-horizontal container-fluid mt32">
+                        <!--      	   add the input fields here -->
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                                <a t-attf-href="/books" class="btn btn-outline-success">Books</a>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+
+<!--                        <div class="form-group row form-field o_website_form_custom">-->
+<!--                            <div class="col-lg-3 col-md-4">-->
+<!--                                <label class="col-form-label" for="Name">Book Image</label>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-7 col-md-8">-->
+<!--                                <input type="file" t-att-value="prod.image" name="image"-->
+<!--                                       alt="Submit" width="48" height="48"/>-->
+<!--                                &lt;!&ndash; <input type="file" alt="Submit" style="float:right" width="48" height="48" name="img" required=""/> &ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Book Name</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" t-att-value="prod.book_name"
+                                       class="form-control o_website_form_input" name="book_name" required=""/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Category</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" t-att-value="prod.category"
+                                       class="form-control o_website_form_input" name="category" required="1"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Author</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <select required="1" name="author_id" class="form-control o_website_form_input">
+                                    <t t-foreach="author_id" t-as="cn">
+                                        <option t-att-value="cn.id">
+                                            <t t-esc="cn.author_name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Publisher</label>
+                            </div>
+                             <div class="col-lg-7 col-md-8">
+                                <select required="1" name="publisher_id" class="form-control o_website_form_input">
+                                    <t t-foreach="publisher_id" t-as="cn">
+                                        <option t-att-value="cn.id">
+                                            <t t-esc="cn.pub_name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">PublisherYear</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="date" t-att-value="prod.publisher_year" class="form-control o_website_form_input"
+                                       name="publisher_year" required="1"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Status</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <select required="1" name="available_status" class="form-control o_website_form_input">
+                                    <option t-attf-value='available'>Available</option>
+                                    <option t-attf-value='not_available'>Not Available</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Subscrption Amt</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" t-att-value="prod.subscrption_amt"
+                                       class="form-control o_website_form_input" name="subscrption_amt" required="1"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                                <input type='submit' class="btn btn-primary btn-lg "/>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="template_thanks" name="Thanks">
+        <t t-call="website.layout">
+            <t t-set="title">Thanks</t>
+            <div id="wrap">
+                <div class="container">
+                    <div class="col-md-12">
+                        <a t-attf-href="/movies" class="btn btn-link">Back to Book</a>
+                        <br/>
+                        <div class="alert alert-success">
+                            <center>
+                                Thank you!!!
+                                <br/>
+                                Have a Nice Day!
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="template_create_feedback">
+        <t t-call="website.layout">
+            <t t-set="title">Feedback</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <h3>Feedback Form</h3>
+                    <form id="feed_form" t-ignore="true" action="/feedback_form/" method="post" data-model_name=""
+                          class="s_website_form container-fluid mt32" enctype="multipart/form-data"
+                          data-success_page="/thanks">
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Name">Your Name</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" class="form-control o_website_form_input" name="Name" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Phone">Phone Number</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" class="form-control o_website_form_input" name="Phone"/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="email_from">Email</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="email" class="form-control o_website_form_input" name="email_from"
+                                       required=""/>
+                            </div>
+                        </div>
+                        <!--                 <div class="form-group row form-field o_website_form_custom">
+                                            <div class="col-lg-3 col-md-4">
+                                                <label class="col-form-label" for="Partner Name">Your Company</label>
+                                            </div>
+                                            <div class="col-lg-7 col-md-8">
+                                                <input type="text" class="form-control o_website_form_input" name="Partner Name"/>
+                                            </div>
+                                        </div> -->
+                        <div class="form-group row form-field o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="subject">Subject</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <input type="text" class="form-control o_website_form_input" name="subject"
+                                       required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                            <div class="col-lg-3 col-md-4">
+                                <label class="col-form-label" for="Description">Your Suggestion</label>
+                            </div>
+                            <div class="col-lg-7 col-md-8">
+                                <textarea class="form-control o_website_form_input" name="Description"
+                                          required=""></textarea>
+                            </div>
+                        </div>
+                        <!--                 <div class="form-group row form-field d-none">
+                                            <div class="col-lg-3 col-md-4">
+                                                <label class="col-form-label" for="email_to">Email To</label>
+                                            </div>
+                                            <div class="col-lg-7 col-md-8">
+                                                <input type="hidden" class="form-control o_website_form_input" name="email_to" t-att-value="res_company.email"/>
+                                            </div>
+                                        </div>
+                        -->
+                        <div class="form-group row">
+                            <div class="offset-lg-3 offset-md-4 col-md-8 col-lg-7">
+                                <a href="#" class="btn btn-primary btn-lg o_website_form_send">Send</a>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <!-- This template is used to login user  In a TABLE -->
+
+    <template id="user_login_form">
+        <t t-call="website.layout">
+            <div class="page" align="center">
+                <br/>
+                <h3 style="color: red;font-size: 30px;">Online Library Management System</h3>
+                <br/>
+                <form action="\user_form" methods="['POST']">
+                    <table width="40%">
+                        <tr>
+                            <th width="40%" required="1">Name</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="name" required="1"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Gender</th>
+                            <td width="40%">
+                                <select name="gender" class="form-control" required="1">
+                                    <option t-attf-value='male'>Male</option>
+                                    <option t-attf-value='female'>Female</option>
+                                    <option t-attf-value='others'>Others</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Age</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="age" required="1"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Father's Name</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="user_father"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Mother's Name</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="user_mother"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Blood Group</th>
+                            <td width="40%">
+                                <select name="blood_group" class="form-control">
+                                    <t t-foreach="blood_group" t-as="bl">
+                                        <option t-att-value="bl.id">
+                                            <t t-esc="bl.blood_group"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Mobile Number</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="phone_no"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Email</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="email"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Street</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="street1"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">City</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="city"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Zip Code</th>
+                            <td width="40%">
+                                <input class="form-control" type="char" name="zip"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">Country</th>
+                            <td width="40%">
+                                <select name="country" class="form-control">
+                                    <t t-foreach="country" t-as="cn">
+                                        <option t-att-value="cn.id">
+                                            <t t-esc="cn.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="40%" required="1">State</th>
+                            <td width="40%">
+                                <select name="state" class="form-control">
+                                    <t t-foreach="state" t-as="st">
+                                        <option t-att-value="st.id">
+                                            <t t-esc="st.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                    <input class="btn btn-primary" type="submit" string="Create"></input>
+                    <br/>
+                </form>
+            </div>
+        </t>
+    </template>
+    <template id="booking_success">
+        <t t-call="website.layout">
+            <div class="page" align="center">
+                <br/>
+                <br/>
+                <br/>
+                <h2 style="color: #6A5ACD;">Created Successfully</h2>
+                <br/>
+                <br/>
+                <h1 style="color: red; font-size:40px;">WelCome To Our OLMS</h1>
+            </div>
+        </t>
+    </template>
+
+</odoo>

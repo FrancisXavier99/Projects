@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="user_pro_form" model="ir.ui.view">
+            <field name="name">user.pro.form</field>
+            <field name="model">user.pro</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1>
+                            <field name="user_no" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="user_name" placeholder="User's Name" required="True"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="user_dob"/>
+                                <field name="user_age"/>
+                                <field name="user_gender" widget="radio" options="{'horizontal':True}"/>
+                                <field name="user_father" required="1"/>
+                                <field name="user_mother" required="1"/>
+                                <field name="mobile_no" required="1"/>
+                                <field name="email_id" required="1"/>
+                                <field name="blood_group" required="1"
+                                       options='{"no_open": True,"no_create":true}'/>
+                            </group>
+                            <group>
+                                <label for="" name="address_name">
+                                    <b>User Address</b>
+                                </label>
+                                <div class="o_address_format">
+                                    <field name="street1" placeholder="Street1....." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street2....." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="state_id" placeholder="State" class="o_address_state"
+                                           domain="[('country_id', '=', country_id)]"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="zip_code" placeholder="Zip Code" class="o_address_zip"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="user_pro_tree" model="ir.ui.view">
+            <field name="name">user.pro.tree</field>
+            <field name="model">user.pro</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="user_no"/>
+                    <field name="user_name"/>
+                    <field name="user_age"/>
+                    <field name="user_gender"/>
+                    <field name="email_id"/>
+                    <field name="mobile_no"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_user_details" model="ir.actions.act_window">
+            <field name="name">User Details</field>
+            <field name="res_model">user.pro</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_male": False,}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click to create a new record
+                </p>
+            </field>
+        </record>
+
+
+        <!--        Employee Views -->
+
+        <record id="view_emp_form" model="ir.ui.view">
+            <field name="name">emp.pro.form</field>
+            <field name="model">emp.pro</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="emp_no" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="emp_name" placeholder="Employee Name" required="True"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="emp_age" widget="integer"/>
+                                <field name="emp_dob" widget="date"/>
+                                <field name="emp_gender" widget="radio" options="{'horizontal':True}"/>
+                                <field name="emp_father"/>
+                                <field name="emp_mother"/>
+                                <field name="emp_mobile_no"/>
+                                <field name="emp_email_id"/>
+                                <field name="lib_id"/>
+                                <field name="blood_group" widget="many2one_tags"
+                                       options='{"no_open": True,"no_create":true}'/>
+                            </group>
+                            <group>
+                                <label for="" name="address_name">
+                                    <b>Employee Address</b>
+                                </label>
+                                <div class="o_address_format">
+                                    <field name="street1" placeholder="Street1....." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street2....." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="state_id" placeholder="State" class="o_address_state"
+                                           domain="[('country_id', '=', country_id)]"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="zip_code" placeholder="Zip Code" class="o_address_zip"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_emp_tree" model="ir.ui.view">
+            <field name="name">emp.pro.tree</field>
+            <field name="model">emp.pro</field>
+            <field name="arch" type="xml">
+                <tree default_order="emp_no desc" limit="10">
+                    <field name="emp_no"/>
+                    <field name="emp_name"/>
+                    <field name="emp_age"/>
+                    <field name="emp_dob"/>
+                    <field name="emp_gender"/>
+                    <field name="emp_father"/>
+                    <field name="emp_mother"/>
+                    <field name="street1"/>
+                    <field name="city"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_emp_details" model="ir.actions.act_window">
+            <field name="name">Employee Details</field>
+            <field name="res_model">emp.pro</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_male": False,}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click to create a new record
+                </p>
+            </field>
+        </record>
+
+        <!--        Publisher Details Views-->
+
+        <record id="view_pub_form" model="ir.ui.view">
+            <field name="name">pub.pro.form</field>
+            <field name="model">pub.pro</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="pub_no" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="pub_name" placeholder="Publisher Name" required="True"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="pub_age" widget="integer"/>
+                                <field name="pub_dob" widget="date"/>
+                                <field name="pub_gender" widget="radio" options="{'horizontal':True}"/>
+                                <field name="pub_father"/>
+                                <field name="pub_mother"/>
+                                <field name="pub_mobile_no"/>
+                                <field name="pub_email_id"/>
+                                <field name="blood_group" widget="many2one_tags"
+                                       options='{"no_open": True,"no_create":true}'/>
+                            </group>
+                            <group>
+                                <label for="" name="address_name">
+                                    <b>Publisher Address</b>
+                                </label>
+                                <div class="o_address_format">
+                                    <field name="street1" placeholder="Street1....." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street2....." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="state_id" placeholder="State" class="o_address_state"
+                                           domain="[('country_id', '=', country_id)]"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="zip_code" placeholder="Zip Code" class="o_address_zip"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_pub_tree" model="ir.ui.view">
+            <field name="name">pub.pro.tree</field>
+            <field name="model">pub.pro</field>
+            <field name="arch" type="xml">
+                <tree default_order="pub_no desc" limit="10">
+                    <field name="pub_no"/>
+                    <field name="pub_name"/>
+                    <field name="pub_age"/>
+                    <field name="pub_dob"/>
+                    <field name="pub_gender"/>
+                    <field name="pub_father"/>
+                    <field name="pub_mother"/>
+                    <field name="street1"/>
+                    <field name="city"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_pub_details" model="ir.actions.act_window">
+            <field name="name">Publisher Details</field>
+            <field name="res_model">pub.pro</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_male": False,}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click to create a new record
+                </p>
+            </field>
+        </record>
+
+        <!--            Author Details Views-->
+
+        <record id="view_author_form" model="ir.ui.view">
+            <field name="name">author.pro.form</field>
+            <field name="model">author.pro</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="author_no" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="author_name" placeholder="Author Name" required="True"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="author_age" widget="integer"/>
+                                <field name="author_dob" widget="date"/>
+                                <field name="author_gender" widget="radio" options="{'horizontal':True}"/>
+                                <field name="author_father"/>
+                                <field name="author_mother"/>
+                                <field name="author_mobile_no"/>
+                                <field name="author_email_id"/>
+                                <field name="blood_group" widget="many2one_tags"
+                                       options='{"no_open": True,"no_create":true}'/>
+                            </group>
+                            <group>
+                                <label for="" name="address_name">
+                                    <b>Author Address</b>
+                                </label>
+                                <div class="o_address_format">
+                                    <field name="street1" placeholder="Street1....." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street2....." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="state_id" placeholder="State" class="o_address_state"
+                                           domain="[('country_id', '=', country_id)]"
+                                           options='{"no_open": True,"no_create":true}'/>
+                                    <field name="zip_code" placeholder="Zip Code" class="o_address_zip"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_author_tree" model="ir.ui.view">
+            <field name="name">author.pro.tree</field>
+            <field name="model">author.pro</field>
+            <field name="arch" type="xml">
+                <tree default_order="author_no desc" limit="10">
+                    <field name="author_no"/>
+                    <field name="author_name"/>
+                    <field name="author_age"/>
+                    <field name="author_dob"/>
+                    <field name="author_gender"/>
+                    <field name="street1"/>
+                    <field name="city"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_author_details" model="ir.actions.act_window">
+            <field name="name">Author Details</field>
+            <field name="res_model">author.pro</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_male": False,}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click to create a new record
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="update_book_form" model="ir.ui.view">
+            <field name="name">update.book.form</field>
+            <field name="model">update.book</field>
+            <field name="arch" type="xml">
+                <form string="Update Book">
+                    <group>
+                        <group>
+                            <field name="book_id" required="1" options="{'no_create_edit': True}"/>
+                            <field name="currency_id" invisible ="1"/>
+                            <field name="category" required="1"/>
+                            <field name="subscrption_amt" required="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="Update_Book" type="object" string="Update" class="btn btn-info"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_update_book" model="ir.actions.act_window">
+            <field name="name">Update Book</field>
+            <field name="res_model">update.book</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

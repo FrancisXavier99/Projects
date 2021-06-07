@@ -1,0 +1,29 @@
+<odoo>
+    <record id="view_booking_date_wizard" model="ir.ui.view">
+        <field name="name">date.wizard</field>
+        <field name="model">date.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Booking Details">
+                <group>
+                    <group>
+                        <field name="from_date"></field>
+                        <field name="to_date"></field>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Get Book Report" name="fetch_book_order_details" type="object" class="btn-primary"/>
+<!--                    <button string="Create Bus" name="create_bus" type="object" class="btn-primary"/>-->
+                    <button string="Cancel" clas="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+
+    </record>
+
+     <record id="book_order_date_wizard_details_action" model="ir.actions.act_window">
+            <field name="name">Book Order Details</field>
+            <field name="res_model">date.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+</odoo>

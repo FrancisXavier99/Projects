@@ -1,0 +1,56 @@
+<odoo>
+    <data>
+        <!--        library book card views-->
+
+        <record id="view_lib_book_card_form" model="ir.ui.view">
+            <field name="name">lib.book.card.form</field>
+            <field name="model">library.book.card</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="lib_card_no" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="user_card_id" placeholder="Book Name" required="True"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="book_limit" readonly="1"/>
+                                <field name="book_id" options='{"no_open": True,"no_create":true}'/>
+                                <field name="start_date" widget="date"/>
+                                <field name="end_date" widget="date"/>
+                                <field name="duration"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_lib_book_card_tree" model="ir.ui.view">
+            <field name="name">lib.book.card.tree</field>
+            <field name="model">library.book.card</field>
+            <field name="arch" type="xml">
+                <tree default_order="lib_card_no desc" limit="10">
+                    <field name="lib_card_no"/>
+                    <field name="user_card_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_lib_book_card_details" model="ir.actions.act_window">
+            <field name="name">Library Book Card Details</field>
+            <field name="res_model">library.book.card</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click to create a new record
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

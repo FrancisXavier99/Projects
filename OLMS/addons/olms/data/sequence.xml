@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--        User Table Sequence Numbers-->
+    <data>
+        <record id="user_seq" model="ir.sequence">
+            <field name="name">User Details</field>
+            <field name="code">olms.user.pro</field>
+            <field name="prefix">US</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <!--        Employee Table Sequence Numbers-->
+        <record id="emp_seq" model="ir.sequence">
+            <field name="name">Employee Details</field>
+            <field name="code">olms.emp.pro</field>
+            <field name="prefix">EM</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <!--    Publishers Tables Sequences-->
+        <record id="pub_seq" model="ir.sequence">
+            <field name="name">Publisher Details</field>
+            <field name="code">olms.pub.pro</field>
+            <field name="prefix">PU</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--        Author Tables Sequences-->
+        <record id="author_seq" model="ir.sequence">
+            <field name="name">Author Details</field>
+            <field name="code">olms.author.pro</field>
+            <field name="prefix">AU</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--        Library Tables Sequences-->
+        <record id="library_seq" model="ir.sequence">
+            <field name="name">Library Details</field>
+            <field name="code">olms.library.details</field>
+            <field name="prefix">LB</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--            Books Tables Sequences-->
+        <record id="book_seq" model="ir.sequence">
+            <field name="name">Book Details</field>
+            <field name="code">olms.book.details</field>
+            <field name="prefix">BK</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--          Library  Books Card Tables Sequences-->
+        <record id="book_card_seq" model="ir.sequence">
+            <field name="name">Book Card Details</field>
+            <field name="code">olms.library.book.card</field>
+            <field name="prefix">LBC</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+         <!--            Payments Tables Sequences-->
+        <record id="payment_seq" model="ir.sequence">
+            <field name="name">Payments Details</field>
+            <field name="code">olms.payment.details</field>
+            <field name="prefix">PM</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

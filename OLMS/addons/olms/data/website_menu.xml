@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="movie_booking_website_menu" model="website.menu">
+	    <field name="name">Book</field>
+	    <field name="url">/books</field>
+	    <field name="parent_id" ref="website.main_menu"/>
+	    <field name="sequence">5</field>
+	</record>
+	
+	<record id="feedbacks_website_menu" model="website.menu">
+	    <field name="name">Feedback</field>
+	    <field name="url">/feedback</field>
+	    <field name="parent_id" ref="movie_booking_website_menu"/>
+	    <field name="sequence">8</field>
+	</record>
+</odoo>

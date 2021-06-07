@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="student_blood_group1" model="blood.details">
+            <field name="blood_group">A+</field>
+        </record>
+        <record id="student_blood_group2" model="blood.details">
+            <field name="blood_group">A-</field>
+        </record>
+        <record id="student_blood_group3" model="blood.details">
+            <field name="blood_group">O+</field>
+        </record>
+        <record id="student_blood_group4" model="blood.details">
+            <field name="blood_group">O-</field>
+        </record>
+        <record id="student_blood_group5" model="blood.details">
+            <field name="blood_group">B+</field>
+        </record>
+        <record id="student_blood_group6" model="blood.details">
+            <field name="blood_group">B-</field>
+        </record>
+        <record id="student_blood_group7" model="blood.details">
+            <field name="blood_group">AB+</field>
+        </record>
+        <record id="student_blood_group8" model="blood.details">
+            <field name="blood_group">AB-</field>
+        </record>
+    </data>
+</odoo>

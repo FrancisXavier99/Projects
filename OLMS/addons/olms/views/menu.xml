@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="library_menu" name="Library" action="action_lib_details"/>
+        <menuitem id="config_menu" name="Configuration" parent="library_menu"
+                  groups="base.group_erp_manager,olms.group_librarian" sequence="7"/>
+        <menuitem id="profile_menu" name="Profile" parent="config_menu"/>
+        <menuitem id="user_menu" name="User" action="action_user_details" parent="profile_menu"/>
+        <menuitem id="emp_menu" name="Employee" action="action_emp_details" parent="profile_menu"/>
+        <menuitem id="pub_menu" name="Publisher" action="action_pub_details" parent="profile_menu"/>
+        <menuitem id="author_menu" name="Author" action="action_author_details" parent="profile_menu"/>
+
+        <menuitem id="book_menu" name="Book" action="action_book_details" parent="library_menu" sequence="1"/>
+        <menuitem id="lib_book_card_menu" name="Book Card" action="action_lib_book_card_details" parent="library_menu"
+                  sequence="2"/>
+        <!--        <menuitem id="lib_book_issue_menu" name="Book Issued" action="action_lib_book_issue_details"-->
+        <!--                  parent="library_menu" sequence="3"/>-->
+        <menuitem id="dashboard_menu" name="Dashboard" parent="library_menu"
+                  action="action_book_client_views" sequence="3"/>
+        <menuitem id="update_book_menu" name="Update Book" action="action_update_book" parent="library_menu"
+                  sequence="5" groups="base.group_erp_manager,olms.group_librarian"/>
+        <menuitem id="menu_reporting" name="Reports" sequence="4" parent="library_menu"
+                  groups="base.group_erp_manager,olms.group_librarian"/>
+        <menuitem id="book_order_menu" name="Order Report" action="book_order_date_wizard_details_action"
+                  parent="menu_reporting"/>
+        <menuitem id="payment_menu" name="Payment" parent="library_menu"
+                  action="payment_action" sequence="6"/>
+    </data>
+</odoo>
