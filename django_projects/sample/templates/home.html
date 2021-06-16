@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>Page Title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.header {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  color: white;
+}
+
+.header h1 {
+  font-size: 40px;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: pink;
+}
+
+.navbar a
+ {
+  float: left;
+  display: pink;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+.navbar a.right {
+  float: right;
+}
+
+.navbar a:hover {
+  background-color: pink;
+  color: black;
+}
+
+.row {  
+  display: -ms-flexbox; 
+  display: flex;
+  -ms-flex-wrap: wrap; 
+  flex-wrap: wrap;
+}
+
+.side {
+  -ms-flex: 30%; 
+  flex: 30%;
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+.main {   
+  -ms-flex: 70%; 
+  flex: 70%;
+  background-color: white;
+  padding: 20px;
+}
+
+.fakeimg {
+  background-color: #aaa;
+  width: 100%;
+  padding: 20px;
+}
+
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+}
+
+@media screen and (max-width: 700px) {
+  .row {   
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .navbar a {
+    float: none;
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<div class="navbar">
+	<form method="POST" action="/logout/">
+	<a href="\logout\" class="right">Logout</a>
+	</form>
+</div>
+
+<div class="header">
+  <h1>Jango website</h1>
+  <p>A website created using django</p>
+</div>
+
+
+
+  <div class="main">
+      <h1><center>Wel Come TO Our Website</center></h1>
+
+<!--    <p style="font-size: 25px; font-family: arial">Yelagiri is a hill station in the southeast Indian state of Tamil Nadu. Built in 1964, the hilltop Velavan Temple is a colorful Murugan temple with views of the valley below. The Jalagamparai Waterfalls crash into a swimming hole surrounded by trails and picnic spots. Nearby is a temple dedicated to Lord Shiva. Close to artificial Punganur Lake, the Nature Park has a garden and an aquarium, with fish and tortoises.</p>-->
+<!--    <br>-->
+
+<!--    <h2>Get Pass</h2>-->
+<!--    -->
+<!--    <p>Register yourself to get the passes</p>-->
+    
+  </div>
+</div>
+
+
+
+</body>
+</html>
+

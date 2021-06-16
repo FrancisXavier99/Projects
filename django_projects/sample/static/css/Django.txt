@@ -1,0 +1,3 @@
+passw = request.POST['password']
+        result = hashlib.md5(passw.encode())
+        password = result.hexdigest()
